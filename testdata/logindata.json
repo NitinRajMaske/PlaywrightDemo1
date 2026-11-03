@@ -1,0 +1,20 @@
+{
+    "loginUrl":"https://api.eventhub.rahulshettyacademy.com/api/auth/login",
+    "loginPayload":
+                    {
+                        "email": "maske.nitinraj@gmail.com", 
+                        "password": "Password@123"
+                    },
+    "eventUrl":"https://api.eventhub.rahulshettyacademy.com/api/events",
+    "eventPayload":
+                    {
+                        "category":"Conference",
+                        "city":"Pune",
+                        "description":"BirthDay Party From nitin",
+                        "eventDate":"2026-11-11T05:41:00.000Z",
+                        "price":"500",
+                        "title":"Birthday Event",
+                        "totalSeats":"20",
+                        "venue":"Near Ganapati Pule"
+                    }
+}
