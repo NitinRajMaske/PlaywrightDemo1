@@ -11,7 +11,7 @@ dotenv.config({
 export default defineConfig({
 
   timeout:80000,
-  workers:2,
+  workers:3,
   //retries:1,
   expect:{
     timeout:6000
