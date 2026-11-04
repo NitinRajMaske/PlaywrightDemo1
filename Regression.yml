@@ -1,0 +1,43 @@
+trigger: none
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Install Node.js'
+
+  - script: npm ci
+    displayName: 'Install dependencies'
+
+  - script: npx playwright install --with-deps
+    displayName: 'Install Playwright Browsers'
+
+  - script: npx playwright test --grep=@Regression
+    displayName: 'Run Playwright Regression Tests'
+    condition: succeededOrFailed()
+    env:
+      PLAYWRIGHT_BASEURL: $(baseUrl)
+      PLAYWRIGHT_USERNAME: $(username)
+      PLAYWRIGHT_PASSWORD: $(password)
+
+  - task: PublishTestResults@2
+    displayName: 'Publish JUnit Test Results'
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/results.xml'
+      searchFolder: '$(System.DefaultWorkingDirectory)'
+      mergeTestResults: true
+      testRunTitle: 'Playwright Regression Tests'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Playwright HTML Report'
+    condition: succeededOrFailed()
+    inputs:
+      targetPath: '$(System.DefaultWorkingDirectory)/playwright-report'
+      artifact: 'Playwright-HTML-Report'
+      publishLocation: 'pipeline'
